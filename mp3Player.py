@@ -159,17 +159,13 @@ mixer.init()
 
 window = tk.Tk()
 window.title ('mp3 player')
+window.geometry("600x200")
 
 listLabel = tk.Label(window,text="Track List:")
 queueList = tk.Listbox(window,width=50)
 
-#I'm containing the buttons in frames, two on each row on the GUI
-
-frame = tk.Frame(window)
-frame2 = tk.Frame(window)
-
-addToQueue = tk.Button(frame,text="Add Songs",command=addSongs,width=15)
-clearButton = tk.Button(frame,text="Clear",command=clear,width=15)
+addToQueue = tk.Button(window,text="Add Songs",command=addSongs,width=15)
+clearButton = tk.Button(window,text="Clear",command=clear,width=15)
 scroll = tk.Scrollbar(window ,orient="vertical", command=queueList.yview)
 
 #The scroll bar should operate the list box
@@ -177,11 +173,11 @@ queueList.configure(yscrollcommand=scroll.set)
 #If we double click the listbox we want to play the selected song
 queueList.bind("<Double-Button-1>", play)
 
-stopButton = tk.Button(frame2,text="Stop",command=stop,width=15)
+stopButton = tk.Button(window,text="Stop",command=stop,width=15)
 #play button can be either single track or All, we track the selected operation here
-play_type = tk.StringVar(frame2) 
-playMenu = tk.OptionMenu(frame2, play_type, *['Play','Play All']) 
-playMenu.config(width=13)
+play_type = tk.StringVar(window) 
+playMenu = tk.OptionMenu(window, play_type, *['Play','Play All']) 
+playMenu.config(width=12)
 #set the default
 play_type.set("Play All") 
 
@@ -199,24 +195,13 @@ def doIt(*args):
 #when the play type variable is set, call the doIt function
 play_type.trace("w", doIt)
 
-
-#place objects to the grid
-
-listLabel.grid(row=0,column=0,sticky='w') #w = west, N S E also available
-queueList.grid(row=1,column=0,rowspan=3) #the list box spans 3 rows
-frame.grid(row=1,column=2)
-frame2.grid(row=2,column=2)
-
-#pack the frames, 2 buttons per frame, push to either left or right
-addToQueue.pack(side=tk.LEFT) 
-clearButton.pack(side=tk.RIGHT)
-playMenu.pack(side=tk.LEFT)
-stopButton.pack(side=tk.RIGHT)
-
-scroll.grid(row=1,column=1,sticky='ns',rowspan=3)
-
-window.grid_columnconfigure(3, minsize=15)  #Im adding a third column just to add 
-                                            #some padding to the right side of the form
+listLabel.place(x=10,y=0)
+queueList.place(x=10,y=20)
+addToQueue.place(x=330,y=20)
+clearButton.place(x=450,y=20)
+playMenu.place(x=329,y=60)
+stopButton.place(x=450,y=60, height=29)
+scroll.place(x=305,y=20, height=170)
 
 #add the playlist file save/load to a menu bar
 menubar = tk.Menu(window)
